@@ -12,7 +12,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -24,6 +29,8 @@ public class OfficersController {
 
     @Autowired
     private OfficersService officersService;
+
+    public static String uploadDirectory = System.getProperty("user.dir") + "/src/main/resources/static/img";
 
     @GetMapping(value = "")
     public String getAllOfficers(Model model) {
@@ -77,7 +84,8 @@ public class OfficersController {
                           @RequestParam(name = "department", defaultValue = "0") Long department_id,
                           @RequestParam(name = "date_of_sign")
                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfSign,
-                          @RequestParam(name = "contract_period") int contractPeriod) {
+                          @RequestParam(name = "contract_period") int contractPeriod,
+                             @RequestParam(name = "fileImage") MultipartFile file) {
 
         Positions position = officersService.getPosition(position_id);
         Ranks rank = officersService.getRank(rank_id);
@@ -98,6 +106,15 @@ public class OfficersController {
 
             officer.setDateOfSign(dateOfSign);
             officer.setContractPeriod(contractPeriod);
+
+            //dealing with photo
+            Path fileNameAndPath = Paths.get(uploadDirectory, file.getOriginalFilename());
+            officer.setFileName(file.getOriginalFilename());
+            try {
+                Files.write(fileNameAndPath, file.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             officersService.addOfficer(officer);
         }

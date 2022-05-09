@@ -45,7 +45,11 @@
                     <td th:text = "${officer.surname}"></td>
                     <td th:text = "${officer.name}"></td>
                     <td th:text = "${officer.middleName}"></td>
-                    <td th:text = "${officer.name}"></td>
+                    <td>
+                        <div>
+                            <img th:src="@{'img/' + ${officer.fileName}}" alt="" width="150" height="150"/>
+                        </div>
+                    </td>
                     <td th:text = "${officer.dateOfBirth}"></td>
                     <td th:text = "${officer.position!=null?officer.position.positionName:'-----'}"></td>
                     <td th:text = "${officer.rank!=null?officer.rank.rankName:'-----'}"></td>

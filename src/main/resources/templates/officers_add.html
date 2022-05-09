@@ -16,7 +16,7 @@
 <div class="container-fluid">
     <div class="row mt-5" >
         <div class="col-6 offset-3">
-            <form th:action="@{'/officers/add'}" method="post">
+            <form th:action="@{'/officers/add'}" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label th:text="#{main.number}"></label>
                     <input type="number" class="form-control" name="personal_number">
@@ -32,6 +32,10 @@
                 <div class="form-group">
                     <label th:text="#{main.middle_name}"></label>
                     <input type="text" class="form-control" name="middle_name">
+                </div>
+                <div class="form-group">
+                    <label th:text="#{main.photo}"></label>
+                    <input type="file" name="fileImage">
                 </div>
                 <div class="form-group">
                     <label th:text="#{main.date_of_birth}"></label>
