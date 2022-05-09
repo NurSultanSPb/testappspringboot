@@ -4,8 +4,6 @@ import kz.springboot.springbootdemoo.entities.Departments;
 import kz.springboot.springbootdemoo.entities.Officers;
 import kz.springboot.springbootdemoo.entities.Positions;
 import kz.springboot.springbootdemoo.entities.Ranks;
-import kz.springboot.springbootdemoo.entities.demo.Country;
-import kz.springboot.springbootdemoo.entities.demo.ShopItems;
 
 import java.util.List;
 
