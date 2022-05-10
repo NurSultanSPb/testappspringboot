@@ -85,37 +85,37 @@ public class OfficersController {
                           @RequestParam(name = "contract_period") int contractPeriod,
                              @RequestParam(name = "fileImage") MultipartFile file) {
 
-        Positions position = officersService.getPosition(position_id);
-        Ranks rank = officersService.getRank(rank_id);
-        Departments department = officersService.getDepartment(department_id);
+            Positions position = officersService.getPosition(position_id);
+            Ranks rank = officersService.getRank(rank_id);
+            Departments department = officersService.getDepartment(department_id);
 
-        if (position != null && rank != null && department != null) {
-            Officers officer = new Officers();
+            if (position != null && rank != null && department != null) {
+                Officers officer = new Officers();
 
-            officer.setPersonalNumber(personalNumber);
-            officer.setSurname(surname);
-            officer.setName(name);
-            officer.setMiddleName(middleName);
-            officer.setDateOfBirth(dateOfBirth);
+                officer.setPersonalNumber(personalNumber);
+                officer.setSurname(surname);
+                officer.setName(name);
+                officer.setMiddleName(middleName);
+                officer.setDateOfBirth(dateOfBirth);
 
-            officer.setPosition(position);
-            officer.setRank(rank);
-            officer.setDepartment(department);
+                officer.setPosition(position);
+                officer.setRank(rank);
+                officer.setDepartment(department);
 
-            officer.setDateOfSign(dateOfSign);
-            officer.setContractPeriod(contractPeriod);
+                officer.setDateOfSign(dateOfSign);
+                officer.setContractPeriod(contractPeriod);
 
-            //dealing with photo
-            Path fileNameAndPath = Paths.get(uploadDirectory, file.getOriginalFilename());
-            officer.setFileName(file.getOriginalFilename());
-            try {
-                Files.write(fileNameAndPath, file.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
+                //dealing with photo
+                Path fileNameAndPath = Paths.get(uploadDirectory, file.getOriginalFilename());
+                officer.setFileName(file.getOriginalFilename());
+                try {
+                    Files.write(fileNameAndPath, file.getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                officersService.addOfficer(officer);
             }
-
-            officersService.addOfficer(officer);
-        }
 
         return "redirect:/";
     }
@@ -190,4 +190,5 @@ public class OfficersController {
 
         return "redirect:/";
     }
+
 }

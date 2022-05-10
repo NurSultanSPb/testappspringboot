@@ -15,7 +15,7 @@ public class Ranks {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", length = 3)
     private Long id;
 
     @Column(name = "rank_name", length = 30)

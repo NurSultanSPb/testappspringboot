@@ -17,10 +17,10 @@ public class Officers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", length = 5)
     private Long id;
 
-    @Column(name = "num")
+    @Column(name = "num", length = 5)
     private int personalNumber;
 
     @Column(name = "surname", length = 15)
@@ -35,13 +35,13 @@ public class Officers {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @Column(name = "picture_file_name", length = 150)
+    @Column(name = "picture_file_name")
     private String fileName;
 
     @Column(name = "date_of_sign")
     private LocalDate dateOfSign;
 
-    @Column(name = "contract_period")
+    @Column(name = "contract_period", length = 2)
     private int contractPeriod;
 
     @ManyToOne(fetch = FetchType.EAGER)
