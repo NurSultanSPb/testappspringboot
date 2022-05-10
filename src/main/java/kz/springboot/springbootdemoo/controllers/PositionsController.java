@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/officers/positions")
+@RequestMapping("/positions")
 public class PositionsController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class PositionsController {
             position.setPositionName(positionName);
             officersService.addPosition(position);
         }
-        return "redirect:/officers/positions";
+        return "redirect:/positions";
     }
 
     @GetMapping("/details/{id}")
@@ -55,7 +55,7 @@ public class PositionsController {
             position.setPositionName(positionName);
             officersService.updatePosition(position);
         }
-        return "redirect:/officers/positions";
+        return "redirect:/positions";
     }
 
     @PostMapping(value = "/deleteposition")
@@ -67,6 +67,6 @@ public class PositionsController {
             officersService.deletePosition(position);
         }
 
-        return "redirect:/officers/positions";
+        return "redirect:/positions";
     }
 }

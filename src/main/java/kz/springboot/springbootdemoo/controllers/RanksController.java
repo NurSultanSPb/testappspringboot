@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/officers/ranks")
+@RequestMapping("/ranks")
 public class RanksController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class RanksController {
             rank.setRankName(rankName);
             officersService.addRank(rank);
         }
-        return "redirect:/officers/ranks";
+        return "redirect:/ranks";
     }
 
     @GetMapping("/details/{id}")
@@ -55,7 +55,7 @@ public class RanksController {
             rank.setRankName(rankName);
             officersService.updateRank(rank);
         }
-        return "redirect:/officers/ranks";
+        return "redirect:/ranks";
     }
 
     @PostMapping(value = "/deleterank")
@@ -67,6 +67,6 @@ public class RanksController {
             officersService.deleteRank(rank);
         }
 
-        return "redirect:/officers/ranks";
+        return "redirect:/ranks";
     }
 }

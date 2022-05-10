@@ -47,7 +47,7 @@
                     <td th:text = "${officer.middleName}"></td>
                     <td>
                         <div>
-                            <img th:src="@{'img/' + ${officer.fileName}}" alt="" width="150" height="150"/>
+                            <img th:src="@{'img/' + ${officer.fileName}}" alt="" width="100" height="100"/>
                         </div>
                     </td>
                     <td th:text = "${officer.dateOfBirth}"></td>
@@ -56,11 +56,11 @@
                     <td th:text = "${officer.department!=null?officer.department.departmentName:'-----'}"></td>
                     <td th:text = "${officer.dateOfSign}"></td>
                     <td th:text = "${officer.contractPeriod}"></td>
-                    <td><a th:href="@{'/officers/details/' + ${officer.id}}" class="btn btn-info btn-sm" th:text="#{main.details}"></a></td>
+                    <td><a th:href="@{'/details/' + ${officer.id}}" class="btn btn-info btn-sm" th:text="#{main.details}"></a></td>
                 </tr>
                 </tbody>
             </table>
-            <a class="btn btn-primary" th:href="@{'/officers/add'}" role="button" th:text="#{main.add}"></a>
+            <a class="btn btn-primary" th:href="@{'/add'}" role="button" th:text="#{main.add}"></a>
         </div>
     </div>
 </div>

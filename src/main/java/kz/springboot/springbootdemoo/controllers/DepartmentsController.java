@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/officers/departments")
+@RequestMapping("/departments")
 public class DepartmentsController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class DepartmentsController {
             department.setDepartmentName(departmentName);
             officersService.addDepartment(department);
         }
-        return "redirect:/officers/departments";
+        return "redirect:/departments";
     }
 
     @GetMapping("/details/{id}")
@@ -55,7 +55,7 @@ public class DepartmentsController {
             department.setDepartmentName(departmentName);
             officersService.updateDepartment(department);
         }
-        return "redirect:/officers/departments";
+        return "redirect:/departments";
     }
 
     @PostMapping(value = "/deletedep")
@@ -67,6 +67,6 @@ public class DepartmentsController {
             officersService.deleteDepartment(department);
         }
 
-        return "redirect:/officers/departments";
+        return "redirect:/departments";
     }
 }

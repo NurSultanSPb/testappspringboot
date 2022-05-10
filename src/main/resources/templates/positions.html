@@ -32,11 +32,11 @@
                 <tr th:each = "position : ${positions}">
                     <td th:text = "${position.id}"></td>
                     <td th:text = "${position.positionName}"></td>
-                    <td><a th:href="@{'/officers/positions/details/' + ${position.id}}" class="btn btn-info btn-sm" th:text="#{main.details}"></a></td>
+                    <td><a th:href="@{'/positions/details/' + ${position.id}}" class="btn btn-info btn-sm" th:text="#{main.details}"></a></td>
                 </tr>
                 </tbody>
             </table>
-            <a class="btn btn-primary" th:href="@{'/officers/positions/add'}" role="button" th:text="#{main.add_position}"></a>
+            <a class="btn btn-primary" th:href="@{'/positions/add'}" role="button" th:text="#{main.add_position}"></a>
         </div>
     </div>
 </div>

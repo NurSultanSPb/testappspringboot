@@ -16,7 +16,7 @@
 <div class="container">
     <div class="row mt-5">
         <div class="col-6 offset-3">
-            <form th:action="@{'/officers/departments/details'}" method="post">
+            <form th:action="@{'/departments/details'}" method="post">
                 <input type="hidden" name="id" th:value="${department.id}">
                 <div class="form-group">
                     <label th:text="#{main.department}"></label>
@@ -32,7 +32,7 @@
             <!-- Modal -->
             <div class="modal fade" id="deleteModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <form th:action="${'/officers/departments/deletedep'}" method="post">
+                    <form th:action="${'/departments/deletedep'}" method="post">
                         <input type="hidden" name="id" th:value="${department.id}">
                         <div class="modal-content">
                             <div class="modal-header">

@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/officers")
+@RequestMapping("")
 public class OfficersController {
 
     @Autowired
@@ -117,7 +117,7 @@ public class OfficersController {
             officersService.addOfficer(officer);
         }
 
-        return "redirect:/officers";
+        return "redirect:/";
     }
 
     @GetMapping(value = "/details/{id}")
@@ -177,7 +177,7 @@ public class OfficersController {
             officersService.updateOfficer(officer);
         }
 
-        return "redirect:/officers";
+        return "redirect:/";
     }
 
     @PostMapping(value = "/deleteofficer")
@@ -188,6 +188,6 @@ public class OfficersController {
             officersService.deleteOfficer(officer);
         }
 
-        return "redirect:/officers";
+        return "redirect:/";
     }
 }
