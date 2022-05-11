@@ -5,6 +5,7 @@ import kz.springboot.springbootdemoo.entities.Officers;
 import kz.springboot.springbootdemoo.entities.Positions;
 import kz.springboot.springbootdemoo.entities.Ranks;
 import kz.springboot.springbootdemoo.services.OfficersService;
+import kz.springboot.springbootdemoo.utils.ExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -12,10 +13,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -189,6 +193,23 @@ public class OfficersController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/exporttoexcel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        List<Officers> officersList = officersService.getAllOfficers();
+
+        ExcelExporter excelExporter = new ExcelExporter(officersList);
+
+        excelExporter.export(response);
     }
 
 }
