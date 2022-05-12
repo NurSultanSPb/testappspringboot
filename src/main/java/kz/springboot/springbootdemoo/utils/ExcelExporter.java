@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
@@ -76,6 +77,9 @@ public class ExcelExporter {
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
 
+            //Корректное отобраэение даты в виде String, использованы
+            //1. Переход от LocalDate к виду Date
+            //2. Переход от Date к String с использованием DateFormat
             Date dateOfBirthDate = null;
             if (officer.getDateOfBirth() != null) {
                 dateOfBirthDate = java.util.Date.from(officer.getDateOfBirth().atStartOfDay()
@@ -89,8 +93,18 @@ public class ExcelExporter {
                         .atZone(ZoneId.systemDefault())
                         .toInstant());
             }
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+            //Автоматическое высчитывание даты завершения контракта
+            Date dateEndContractDate = null;
+            if (officer.getDateOfSign() != null) {
+                LocalDate dateEndContract = officer.getDateOfSign().plusYears(officer.getContractPeriod());
+                dateEndContractDate = java.util.Date.from(dateEndContract.atStartOfDay()
+                        .atZone(ZoneId.systemDefault())
+                        .toInstant());
+            }
+
+            //Наполнение строк данными конкретного сотрудника
             createCell(row, columnCount++, officer.getPersonalNumber(), style);
             createCell(row, columnCount++, officer.getSurname() + " " + officer.getName() + " " + officer.getMiddleName(), style);
             createCell(row, columnCount++, dateFormat.format(dateOfBirthDate), style);
@@ -99,7 +113,7 @@ public class ExcelExporter {
             createCell(row, columnCount++, officer.getDepartment().getDepartmentName(), style);
             createCell(row, columnCount++, dateFormat.format(dateOfSignDate), style);
             createCell(row, columnCount++, officer.getContractPeriod(), style);
-            createCell(row, columnCount++, dateFormat.format(dateOfSignDate), style);
+            createCell(row, columnCount++, dateFormat.format(dateEndContractDate), style);
 
 
 
