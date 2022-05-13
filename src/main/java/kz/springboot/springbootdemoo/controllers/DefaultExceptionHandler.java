@@ -19,7 +19,7 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<ErrorMessage> smthWentWrong(Exception ex) {
         ErrorMessage exceptionResponse = new ErrorMessage(ex.getMessage(), "You have some mistakes, please make correct requests");
 
-        return new ResponseEntity<ErrorMessage>(exceptionResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<ErrorMessage>(exceptionResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 }
 

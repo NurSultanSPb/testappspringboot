@@ -1,6 +1,7 @@
 package kz.springboot.springbootdemoo.controllers;
 
 import kz.springboot.springbootdemoo.entities.Departments;
+import kz.springboot.springbootdemoo.entities.Officers;
 import kz.springboot.springbootdemoo.entities.Positions;
 import kz.springboot.springbootdemoo.services.OfficersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,14 @@ public class DepartmentsController {
     public String deleteOfficer(@RequestParam(name = "id", defaultValue = "0") Long id) {
 
         Departments department = officersService.getDepartment(id);
+
+        //Как избежать белого листа с ошибкой
+        List<Officers> officers = officersService.getAllOfficers();
+        for (Officers off: officers) {
+            if (off.getDepartment().getId() == id) {
+                return "redirect:/departments";
+            }
+        }
 
         if(department != null) {
             officersService.deleteDepartment(department);

@@ -1,5 +1,6 @@
 package kz.springboot.springbootdemoo.controllers;
 
+import kz.springboot.springbootdemoo.entities.Officers;
 import kz.springboot.springbootdemoo.entities.Positions;
 import kz.springboot.springbootdemoo.entities.Ranks;
 import kz.springboot.springbootdemoo.services.OfficersService;
@@ -59,11 +60,19 @@ public class RanksController {
     }
 
     @PostMapping(value = "/deleterank")
-    public String deleteOfficer(@RequestParam(name = "id", defaultValue = "0") Long id) {
+    public String deleteRank(@RequestParam(name = "id", defaultValue = "0") Long id) {
 
         Ranks rank = officersService.getRank(id);
 
-        if(rank != null) {
+        //Как избежать белого листа с ошибкой
+        List<Officers> officers = officersService.getAllOfficers();
+        for (Officers off: officers) {
+            if (off.getRank().getId() == id) {
+                return "redirect:/ranks";
+            }
+        }
+
+        if (rank != null) {
             officersService.deleteRank(rank);
         }
 

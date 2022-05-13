@@ -198,6 +198,8 @@ public class OfficersController {
     @GetMapping("/exporttoexcel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
+
+        //Написание названия эксель-дока
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
 
