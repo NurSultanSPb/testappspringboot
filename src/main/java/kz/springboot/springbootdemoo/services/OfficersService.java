@@ -14,6 +14,7 @@ public interface OfficersService {
     Officers getOfficer(Long id);
     void deleteOfficer(Officers officer);
     Officers updateOfficer(Officers officer);
+    List<Officers> getAllSearchedOfficers(String keyword);
 
     List<Positions> getAllPositions();
     Positions addPosition(Positions position);

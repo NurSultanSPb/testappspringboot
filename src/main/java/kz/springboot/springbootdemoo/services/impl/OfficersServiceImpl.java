@@ -55,6 +55,11 @@ public class OfficersServiceImpl implements OfficersService {
     }
 
     @Override
+    public List<Officers> getAllSearchedOfficers(String keyword) {
+        return officersRepository.findAllOfficersByKeyword(keyword);
+    }
+
+    @Override
     public List<Positions> getAllPositions() {
         return positionsRepository.findAll();
     }

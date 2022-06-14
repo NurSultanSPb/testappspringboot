@@ -214,4 +214,22 @@ public class OfficersController {
         excelExporter.export(response);
     }
 
+    @GetMapping(value = "?{keyword}")
+    public String getAllSearchingOfficers(Model model, @PathVariable(name = "keyword") String keyword) {
+
+        List<Officers> officers = officersService.getAllSearchedOfficers(keyword);
+        model.addAttribute("officers", officers);
+
+//        List<Positions> positions = officersService.getAllPositions();
+//        model.addAttribute("positions", positions);
+//
+//        List<Ranks> ranks = officersService.getAllRanks();
+//        model.addAttribute("ranks", ranks);
+//
+//        List<Departments> departments = officersService.getAllDepartments();
+//        model.addAttribute("departments", departments);
+
+        return "officers_search";
+
+    }
 }

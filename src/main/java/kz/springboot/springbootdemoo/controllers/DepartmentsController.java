@@ -19,7 +19,7 @@ public class DepartmentsController {
     private OfficersService officersService;
 
     @GetMapping("")
-    public String getAllPositions(Model model) {
+    public String getAllDepartments(Model model) {
         List<Departments> departments = officersService.getAllDepartments();
         model.addAttribute("departments", departments);
 
@@ -32,7 +32,7 @@ public class DepartmentsController {
     }
 
     @PostMapping("/add")
-    public String addPosition(@RequestParam(name = "department_name") String departmentName) {
+    public String addDepartment(@RequestParam(name = "department_name") String departmentName) {
         if(departmentName != null) {
             Departments department = new Departments();
             department.setDepartmentName(departmentName);
@@ -60,7 +60,7 @@ public class DepartmentsController {
     }
 
     @PostMapping(value = "/deletedep")
-    public String deleteOfficer(@RequestParam(name = "id", defaultValue = "0") Long id) {
+    public String deleteDepartment(@RequestParam(name = "id", defaultValue = "0") Long id) {
 
         Departments department = officersService.getDepartment(id);
 

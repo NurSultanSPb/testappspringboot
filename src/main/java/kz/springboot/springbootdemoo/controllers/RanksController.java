@@ -49,7 +49,7 @@ public class RanksController {
     }
 
     @PostMapping("/details")
-    public String updatePosition(@RequestParam(name = "id", defaultValue = "0") Long id,
+    public String updateRank(@RequestParam(name = "id", defaultValue = "0") Long id,
                                  @RequestParam(name = "rank") String rankName) {
         Ranks rank = officersService.getRank(id);
         if (rank != null && rankName != null) {
