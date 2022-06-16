@@ -33,6 +33,7 @@
                     <th th:text="#{meridian.target}">Target name</th>
                     <th th:text="#{meridian.azimuth}">Azimuth</th>
                     <th th:text="#{meridian.distance}">Distance</th>
+                    <th th:text="#{meridian.delete}">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,9 +48,18 @@
                     <td th:text = "${option.getNumberOfTargetTwo()}"></td>
                     <td th:text = "${option.getAzimuthTwo()}"></td>
                     <td th:text = "${option.getDistanceTwo()}"></td>
+                    <td th:text="#{meridian.delete}">
+                        <form th:action="@{'/delete'}" method="post">
+                            <input type="hidden" name="id" th:value="${option.id}">
+                            <div class="form-group">
+                                <button class="btn btn-success" th:text="#{meridian.delete}"></button>
+                            </div>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>
+
 <!--            <a class="btn btn-success ml-2" th:href="@{/exporttoexcel}" role="button" th:text="#{main.excel}"></a>-->
 <!--            <a th:href="@{/exporttoexcel}" th:text="#{main.excel}"></a>-->
         </div>

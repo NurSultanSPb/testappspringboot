@@ -16,7 +16,8 @@
 <div class="container-fluid">
     <div class="row mt-5" >
         <div class="col-6 offset-3">
-            <form th:action="@{'/add'}" method="post" enctype="multipart/form-data">
+            <form th:action="@{'/'}" method="post">
+                <h5 class="display-4 text-center" th:text="#{meridian.input}">Enter source data</h5>
                 <div class="form-group">
                     <label th:text="#{meridian.number}"></label>
                     <input type="number" min="1" max="10000" step="1" tclass="form-control" name="gun_number">
