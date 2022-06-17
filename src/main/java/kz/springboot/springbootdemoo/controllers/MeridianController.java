@@ -68,13 +68,80 @@ public class MeridianController {
         option.setDistanceTwo(distanceTwo);
 
         meridianService.addOption(option);
+
+        Long id = option.getId();
+        if (id != 1) {
+            MeridianOptions option1 = meridianService.getOption(1L);
+            String degree = option.getAzimuthOne();
+            String degree1 = option1.getAzimuthOne();
+            String degreeTwo = option.getAzimuthTwo();
+            String degreeTwo1 = option1.getAzimuthTwo();
+            if (option.getNumberOfGun() == option1.getNumberOfGun()) {
+                if ((Math.abs(option.getX() - option1.getX()) > 1) || (Math.abs(option.getY() - option1.getY()) > 1)) {
+                    return "meridian_add_miss_all";
+                } else {
+                    if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) > 1) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) > 1)) {
+                        return "meridian_add_miss_all";
+                    }
+                    if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) <= 1) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) > 1)) {
+                        if (compareDegrees(degree, degree1)) {
+                            return "meridian_add_success_first";
+                        } else {
+                            return "meridian_add_miss_all";
+                        }
+                    } else if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) > 1) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) <= 1)) {
+                        if (compareDegrees(degreeTwo, degreeTwo1)) {
+                            return "meridian_add_success_second";
+                        } else {
+                            return "meridian_add_miss_all";
+                        }
+                    }
+                    if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) <= 1) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) <= 1)) {
+                        if (compareDegrees(degree, degree1) && compareDegrees(degreeTwo, degreeTwo1)) {
+                            return "meridian_add_success_all";
+                        } else if (compareDegrees(degree, degree1) == true && compareDegrees(degreeTwo, degreeTwo1) == false) {
+                            return "meridian_add_success_first";
+                        } else if (compareDegrees(degree, degree1) == false && compareDegrees(degreeTwo, degreeTwo1) == true) {
+                            return "meridian_add_success_second";
+                        } else {
+                            return "meridian_add_miss_all";
+                        }
+                    }
+                }
+            }
+        }
+
+        return "redirect:/allresults";
+
+    }
+
+    @PostMapping("/delete")
+    public String deleteOption(@RequestParam(name = "id", defaultValue = "0") Long id) {
+        MeridianOptions options = meridianService.getOption(id);
+        if (options != null) {
+            meridianService.deleteOption(options);
+        }
         return "redirect:/allresults";
     }
 
-    @GetMapping("/delete")
-    public String deleteOption() {
-
-        return "redirect:/allresults";
+    private boolean compareDegrees(String degree, String degree1) {
+        String newDegree = degree.replace("°", " ").replace("'", " ").replace("\"", " ");
+        String newDegree1 = degree1.replace("°", " ").replace("'", " ").replace("\"", " ");
+        String[] array = newDegree.split(" ");
+        String[] arrayTwo = newDegree1.split(" ");
+        int degrees = Integer.parseInt(array[0]);
+        int minutes = Integer.parseInt(array[1]);
+        int seconds = Integer.parseInt(array[2]);
+        int degrees1 = Integer.parseInt(arrayTwo[0]);
+        int minutes1 = Integer.parseInt(arrayTwo[1]);
+        int seconds1 = Integer.parseInt(arrayTwo[2]);
+        int allSeconds = (degrees * 60) + (minutes * 60) + (seconds);
+        int allSeonds1 = (degrees1 * 60) + (minutes1 * 60) + (seconds1);
+        if (Math.abs(allSeconds - allSeonds1) <= 10) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -48,14 +48,10 @@
                     <td th:text = "${option.getNumberOfTargetTwo()}"></td>
                     <td th:text = "${option.getAzimuthTwo()}"></td>
                     <td th:text = "${option.getDistanceTwo()}"></td>
-                    <td th:text="#{meridian.delete}">
-                        <form th:action="@{'/delete'}" method="post">
-                            <input type="hidden" name="id" th:value="${option.id}">
-                            <div class="form-group">
-                                <button class="btn btn-success" th:text="#{meridian.delete}"></button>
-                            </div>
-                        </form>
-                    </td>
+                    <td>
+                        <a th:href="@{#}" class="btn btn-info btn-sm" th:text="#{meridian.delete}">
+
+                        </a></td>
                 </tr>
                 </tbody>
             </table>

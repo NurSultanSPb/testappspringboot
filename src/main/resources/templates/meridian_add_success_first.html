@@ -1,4 +1,4 @@
-<html xmlns:th = "http://www.thymeleaf.org">
+meridian_add.html<html xmlns:th = "http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -64,11 +64,11 @@
         </div>
         <div class="col-4">
             <h5 class="display-4 text-center" th:text="#{meridian.output}">Your results</h5>
-            <div class="alert alert-primary" role="alert" th:text="#{meridian.target.wait.one}">
+            <div class="alert alert-success" role="alert" th:text="#{meridian.target.success.one}">
                 Target one destroyed!
             </div>
-            <div class="alert alert-primary" role="alert" th:text="#{meridian.target.wait.two}">
-                Target two destroyed!
+            <div class="alert alert-danger" role="alert" th:text="#{meridian.target.missing.two}">
+                Target two - a miss!
             </div>
         </div>
     </div>
