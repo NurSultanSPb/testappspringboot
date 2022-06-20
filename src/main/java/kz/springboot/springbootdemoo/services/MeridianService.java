@@ -1,7 +1,6 @@
 package kz.springboot.springbootdemoo.services;
 
 import kz.springboot.springbootdemoo.entities.MeridianOptions;
-import kz.springboot.springbootdemoo.entities.Officers;
 
 import java.util.List;
 

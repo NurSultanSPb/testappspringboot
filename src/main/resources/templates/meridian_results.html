@@ -18,7 +18,6 @@
         <div class="col-12">
             <h3>
                 <h3 th:text="#{main.phrase_one}"></h3>
-                <small class="text-muted" th:text="#{main.phrase_two}"></small>
             </h3>
             <table class="table table-stripped">
                 <thead>
@@ -49,7 +48,7 @@
                     <td th:text = "${option.getAzimuthTwo()}"></td>
                     <td th:text = "${option.getDistanceTwo()}"></td>
                     <td>
-                        <a th:href="@{#}" class="btn btn-info btn-sm" th:text="#{meridian.delete}">
+                        <a th:href="@{#}" class="btn btn-info btn-sm" th:text="#{meridian.about}">
 
                         </a></td>
                 </tr>

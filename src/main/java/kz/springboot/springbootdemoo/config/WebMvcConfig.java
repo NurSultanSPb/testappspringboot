@@ -32,6 +32,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public CookieLocaleResolver localeResolverKz() {
+        CookieLocaleResolver resolver = new CookieLocaleResolver();
+        resolver.setDefaultLocale(new Locale("kz"));
+        resolver.setCookieName("language");
+        resolver.setCookieMaxAge(3600*24*365);
+        return resolver;
+    }
+
+    @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName("lng");
@@ -41,6 +50,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
-
     }
 }
