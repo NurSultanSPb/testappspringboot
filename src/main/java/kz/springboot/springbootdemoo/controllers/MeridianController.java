@@ -67,38 +67,84 @@ public class MeridianController {
         meridianService.addOption(option);
 
         Long id = option.getId();
-        if (id != 1) {
+
+        //допуск расстояния и разности координат х и у
+        double deltaDistance = 0.1;
+
+        if (id != 1 && id != 2) {
             MeridianOptions option1 = meridianService.getOption(1L);
+            MeridianOptions option2 = meridianService.getOption(2L);
+
             String degree = option.getAzimuthOne();
             String degree1 = option1.getAzimuthOne();
+            String degree2 = option2.getAzimuthOne();
+
             String degreeTwo = option.getAzimuthTwo();
             String degreeTwo1 = option1.getAzimuthTwo();
+            String degreeTwo2 = option2.getAzimuthTwo();
+
+            //для номера орудия = 1
             if (option.getNumberOfGun() == option1.getNumberOfGun()) {
-                if ((Math.abs(option.getX() - option1.getX()) > 1) || (Math.abs(option.getY() - option1.getY()) > 1)) {
+                if ((Math.abs(option.getX() - option1.getX()) > deltaDistance) || (Math.abs(option.getY() - option1.getY()) > deltaDistance)) {
                     return "meridian_add_miss_all";
                 } else {
-                    if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) > 1) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) > 1)) {
+                    if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) > deltaDistance) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) > deltaDistance)) {
                         return "meridian_add_miss_all";
                     }
-                    if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) <= 1) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) > 1)) {
+                    if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) <= deltaDistance) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) > deltaDistance)) {
                         if (compareDegrees(degree, degree1)) {
                             return "meridian_add_success_first";
                         } else {
                             return "meridian_add_miss_all";
                         }
-                    } else if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) > 1) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) <= 1)) {
+                    } else if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) > deltaDistance) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) <= deltaDistance)) {
                         if (compareDegrees(degreeTwo, degreeTwo1)) {
                             return "meridian_add_success_second";
                         } else {
                             return "meridian_add_miss_all";
                         }
                     }
-                    if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) <= 1) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) <= 1)) {
+                    if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) <= deltaDistance) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) <= deltaDistance)) {
                         if (compareDegrees(degree, degree1) && compareDegrees(degreeTwo, degreeTwo1)) {
                             return "meridian_add_success_all";
                         } else if (compareDegrees(degree, degree1) == true && compareDegrees(degreeTwo, degreeTwo1) == false) {
                             return "meridian_add_success_first";
                         } else if (compareDegrees(degree, degree1) == false && compareDegrees(degreeTwo, degreeTwo1) == true) {
+                            return "meridian_add_success_second";
+                        } else {
+                            return "meridian_add_miss_all";
+                        }
+                    }
+                }
+            }
+
+            //для номера орудия = 2
+            if (option.getNumberOfGun() == option2.getNumberOfGun()) {
+                if ((Math.abs(option.getX() - option2.getX()) > deltaDistance) || (Math.abs(option.getY() - option2.getY()) > deltaDistance)) {
+                    return "meridian_add_miss_all";
+                } else {
+                    if ((Math.abs(option.getDistanceOne() - option2.getDistanceOne()) > deltaDistance) && (Math.abs(option.getDistanceTwo() - option2.getDistanceTwo()) > deltaDistance)) {
+                        return "meridian_add_miss_all";
+                    }
+                    if ((Math.abs(option.getDistanceOne() - option2.getDistanceOne()) <= deltaDistance) && (Math.abs(option.getDistanceTwo() - option2.getDistanceTwo()) > deltaDistance)) {
+                        if (compareDegrees(degree, degree2)) {
+                            return "meridian_add_success_first";
+                        } else {
+                            return "meridian_add_miss_all";
+                        }
+                    } else if ((Math.abs(option.getDistanceOne() - option2.getDistanceOne()) > deltaDistance) && (Math.abs(option.getDistanceTwo() - option2.getDistanceTwo()) <= deltaDistance)) {
+                        if (compareDegrees(degreeTwo, degreeTwo2)) {
+                            return "meridian_add_success_second";
+                        } else {
+                            return "meridian_add_miss_all";
+                        }
+                    }
+                    if ((Math.abs(option.getDistanceOne() - option2.getDistanceOne()) <= deltaDistance) && (Math.abs(option.getDistanceTwo() - option2.getDistanceTwo()) <= deltaDistance)) {
+                        if (compareDegrees(degree, degree2) && compareDegrees(degreeTwo, degreeTwo2)) {
+                            return "meridian_add_success_all";
+                        } else if (compareDegrees(degree, degree2) == true && compareDegrees(degreeTwo, degreeTwo2) == false) {
+                            return "meridian_add_success_first";
+                        } else if (compareDegrees(degree, degree2) == false && compareDegrees(degreeTwo, degreeTwo2) == true) {
                             return "meridian_add_success_second";
                         } else {
                             return "meridian_add_miss_all";
@@ -173,13 +219,18 @@ public class MeridianController {
         int degrees1 = Integer.parseInt(arrayTwo[0]);
         int minutes1 = Integer.parseInt(arrayTwo[1]);
         int seconds1 = Integer.parseInt(arrayTwo[2]);
+        int allMinutes = (degrees * 60) + minutes;
+        int allMinutes1 = (degrees1 * 60) + minutes1;
         int allSeconds = (degrees * 60) + (minutes * 60) + (seconds);
         int allSeonds1 = (degrees1 * 60) + (minutes1 * 60) + (seconds1);
-        if (Math.abs(allSeconds - allSeonds1) <= 10) {
-            return true;
-        } else {
-            return false;
+        if (Math.abs(degrees - degrees1) <= 1) {
+            if (Math.abs(allMinutes - allMinutes1) <= 1) {
+                if (Math.abs(allSeconds - allSeonds1) <= 3) {
+                    return true;
+                }
+            }
         }
+        return false;
     }
 
 }
