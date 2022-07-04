@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -114,6 +111,47 @@ public class MeridianController {
         return "redirect:/allresults";
 
     }
+
+    @GetMapping("/details/{id}")
+    public String detailsPage(@PathVariable("id") Long id, Model model) {
+        MeridianOptions options = meridianService.getOption(id);
+        if (options != null) {
+            model.addAttribute("option", options);
+            return "meridian_details";
+        }
+        return "meridian_results";
+    }
+
+    @PostMapping("/details")
+    public String updateOption(@RequestParam(name = "id") Long id,
+                               @RequestParam(name = "gun_number") int gunNumber,
+                               @RequestParam(name = "x") double x,
+                               @RequestParam(name = "y")  double y,
+                               @RequestParam(name = "target_one") int targetOne,
+                               @RequestParam(name = "azimuth_one") String azimuthOne,
+                               @RequestParam(name = "distance_one") double distanceOne,
+                               @RequestParam(name = "target_two") int targetTwo,
+                               @RequestParam(name = "azimuth_two") String azimuthTwo,
+                               @RequestParam(name = "distance_two") double distanceTwo) {
+        MeridianOptions option = meridianService.getOption(id);
+
+        option.setNumberOfGun(gunNumber);
+        option.setX(x);
+        option.setY(y);
+
+        option.setNumberOfTargetOne(targetOne);
+        option.setAzimuthOne(azimuthOne);
+        option.setDistanceOne(distanceOne);
+
+        option.setNumberOfTargetTwo(targetTwo);
+        option.setAzimuthTwo(azimuthTwo);
+        option.setDistanceTwo(distanceTwo);
+
+        meridianService.updateOption(option);
+        return "redirect:/allresults";
+
+    }
+
 
     @PostMapping("/delete")
     public String deleteOption(@RequestParam(name = "id", defaultValue = "0") Long id) {

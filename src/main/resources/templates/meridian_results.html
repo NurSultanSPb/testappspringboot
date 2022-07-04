@@ -32,7 +32,7 @@
                     <th th:text="#{meridian.target}">Target name</th>
                     <th th:text="#{meridian.azimuth}">Azimuth</th>
                     <th th:text="#{meridian.distance}">Distance</th>
-                    <th th:text="#{meridian.delete}">Delete</th>
+                    <th th:text="#{meridian.about}">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,10 +47,7 @@
                     <td th:text = "${option.getNumberOfTargetTwo()}"></td>
                     <td th:text = "${option.getAzimuthTwo()}"></td>
                     <td th:text = "${option.getDistanceTwo()}"></td>
-                    <td>
-                        <a th:href="@{#}" class="btn btn-info btn-sm" th:text="#{meridian.about}">
-
-                        </a></td>
+                    <td><a th:href="@{'/details/' + ${option.id}}" class="btn btn-info btn-sm" th:text="#{meridian.about}"></a></td>
                 </tr>
                 </tbody>
             </table>
