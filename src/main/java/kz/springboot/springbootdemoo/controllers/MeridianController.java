@@ -69,7 +69,7 @@ public class MeridianController {
         Long id = option.getId();
 
         //допуск расстояния и разности координат х и у
-        double deltaDistance = 0.1;
+        double deltaDistance = 100.0;
 
         if (id != 1 && id != 2) {
             MeridianOptions option1 = meridianService.getOption(1L);
@@ -225,7 +225,7 @@ public class MeridianController {
         int allSeonds1 = (degrees1 * 60) + (minutes1 * 60) + (seconds1);
         if (Math.abs(degrees - degrees1) <= 1) {
             if (Math.abs(allMinutes - allMinutes1) <= 1) {
-                if (Math.abs(allSeconds - allSeonds1) <= 3) {
+                if (Math.abs(allSeconds - allSeonds1) <= 59) {
                     return true;
                 }
             }
