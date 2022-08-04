@@ -225,7 +225,7 @@ public class MeridianController {
         int allSeonds1 = (degrees1 * 60) + (minutes1 * 60) + (seconds1);
         if (Math.abs(degrees - degrees1) <= 1) {
             if (Math.abs(allMinutes - allMinutes1) <= 1) {
-                if (Math.abs(allSeconds - allSeonds1) <= 3) {
+                if (Math.abs(allSeconds - allSeonds1) <= 30) {
                     return true;
                 }
             }
