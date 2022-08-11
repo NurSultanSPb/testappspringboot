@@ -69,7 +69,7 @@ public class MeridianController {
         Long id = option.getId();
 
         //допуск расстояния и разности координат х и у
-        double deltaDistance = 0.1;
+        double deltaDistance = 0.10001;
 
         if (id != 1 && id != 2) {
             MeridianOptions option1 = meridianService.getOption(1L);
@@ -152,6 +152,7 @@ public class MeridianController {
                     }
                 }
             }
+            return "meridian_add_success_all";
         }
 
         return "redirect:/allresults";
@@ -221,11 +222,11 @@ public class MeridianController {
         int seconds1 = Integer.parseInt(arrayTwo[2]);
         int allMinutes = (degrees * 60) + minutes;
         int allMinutes1 = (degrees1 * 60) + minutes1;
-        int allSeconds = (degrees * 60) + (minutes * 60) + (seconds);
-        int allSeonds1 = (degrees1 * 60) + (minutes1 * 60) + (seconds1);
+        int allSeconds = (degrees * 3600) + (minutes * 60) + (seconds);
+        int allSeonds1 = (degrees1 * 3600) + (minutes1 * 60) + (seconds1);
         if (Math.abs(degrees - degrees1) <= 1) {
             if (Math.abs(allMinutes - allMinutes1) <= 1) {
-                if (Math.abs(allSeconds - allSeonds1) <= 30) {
+                if (Math.abs(allSeconds - allSeonds1) <= 60) {
                     return true;
                 }
             }
