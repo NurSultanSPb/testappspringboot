@@ -50,8 +50,8 @@ public class MeridianController {
                                     @RequestParam(name = "target_two", defaultValue = "1") int targetTwo,
                                     @RequestParam(name = "azimuth_two", defaultValue = " ") String azimuthTwo,
                                     @RequestParam(name = "distance_two", defaultValue = "0") double distanceTwo) {
-        MeridianOptions option = new MeridianOptions();
         //option = вводимый вариант
+        MeridianOptions option = new MeridianOptions();
 
         option.setNumberOfGun(gunNumber);
         option.setX(x);
@@ -71,18 +71,20 @@ public class MeridianController {
         Long id = option.getId();
 
 
-        //допуск расстояния х и у
+        //допуск расстояния
         double deltaDistance = 0.200001;
 
         //допуск разности координат
         double deltaXY = 0.050001;
 
+        //если вводимые данные не являются исходными результатами
         if (id != 1 && id != 2) {
             //option1 =  данные 1 варианта
             MeridianOptions option1 = meridianService.getOption(1L);
 
             //option2 =  данные 2 варианта
             MeridianOptions option2 = meridianService.getOption(2L);
+
 
             String degree = option.getAzimuthOne();
             String degree1 = option1.getAzimuthOne();
