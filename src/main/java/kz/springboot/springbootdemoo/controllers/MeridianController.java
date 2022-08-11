@@ -51,6 +51,7 @@ public class MeridianController {
                                     @RequestParam(name = "azimuth_two", defaultValue = " ") String azimuthTwo,
                                     @RequestParam(name = "distance_two", defaultValue = "0") double distanceTwo) {
         MeridianOptions option = new MeridianOptions();
+        //option = вводимый вариант
 
         option.setNumberOfGun(gunNumber);
         option.setX(x);
@@ -65,14 +66,22 @@ public class MeridianController {
         option.setDistanceTwo(distanceTwo);
 
         meridianService.addOption(option);
+        //сохранение вводимого варианта
 
         Long id = option.getId();
 
-        //допуск расстояния и разности координат х и у
-        double deltaDistance = 0.10001;
+
+        //допуск расстояния х и у
+        double deltaDistance = 0.200001;
+
+        //допуск разности координат
+        double deltaXY = 0.050001;
 
         if (id != 1 && id != 2) {
+            //option1 =  данные 1 варианта
             MeridianOptions option1 = meridianService.getOption(1L);
+
+            //option2 =  данные 2 варианта
             MeridianOptions option2 = meridianService.getOption(2L);
 
             String degree = option.getAzimuthOne();
@@ -85,7 +94,7 @@ public class MeridianController {
 
             //для номера орудия = 1
             if (option.getNumberOfGun() == option1.getNumberOfGun()) {
-                if ((Math.abs(option.getX() - option1.getX()) > deltaDistance) || (Math.abs(option.getY() - option1.getY()) > deltaDistance)) {
+                if ((Math.abs(option.getX() - option1.getX()) > deltaXY) || (Math.abs(option.getY() - option1.getY()) > deltaXY)) {
                     return "meridian_add_miss_all";
                 } else {
                     if ((Math.abs(option.getDistanceOne() - option1.getDistanceOne()) > deltaDistance) && (Math.abs(option.getDistanceTwo() - option1.getDistanceTwo()) > deltaDistance)) {
@@ -120,7 +129,7 @@ public class MeridianController {
 
             //для номера орудия = 2
             if (option.getNumberOfGun() == option2.getNumberOfGun()) {
-                if ((Math.abs(option.getX() - option2.getX()) > deltaDistance) || (Math.abs(option.getY() - option2.getY()) > deltaDistance)) {
+                if ((Math.abs(option.getX() - option2.getX()) > deltaXY) || (Math.abs(option.getY() - option2.getY()) > deltaXY)) {
                     return "meridian_add_miss_all";
                 } else {
                     if ((Math.abs(option.getDistanceOne() - option2.getDistanceOne()) > deltaDistance) && (Math.abs(option.getDistanceTwo() - option2.getDistanceTwo()) > deltaDistance)) {
