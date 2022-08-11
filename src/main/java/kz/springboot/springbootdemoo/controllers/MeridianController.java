@@ -65,11 +65,10 @@ public class MeridianController {
         option.setAzimuthTwo(azimuthTwo);
         option.setDistanceTwo(distanceTwo);
 
-        meridianService.addOption(option);
         //сохранение вводимого варианта
+        meridianService.addOption(option);
 
         Long id = option.getId();
-
 
         //допуск расстояния
         double deltaDistance = 0.200001;
@@ -96,6 +95,21 @@ public class MeridianController {
 
             //для номера орудия = 1
             if (option.getNumberOfGun() == option1.getNumberOfGun()) {
+                double deltaX = Math.abs(option.getX() - option1.getX());
+                double deltaY = Math.abs(option.getY() - option1.getY());
+                double deltaDistanceOne = Math.abs(option.getDistanceOne() - option1.getDistanceOne());
+                double deltaDistanceTwo = Math.abs(option.getDistanceTwo() - option1.getDistanceTwo());
+                int deltaAzimuthOne = getDeltaAzimuth(degree, degree1);
+                int deltaAzimuthTwo = getDeltaAzimuth(degreeTwo, degreeTwo1);
+
+                option.setDeltaX(String.format("%.2f", deltaX*100));
+                option.setDeltaY(String.format("%.2f", deltaY*100));
+                option.setDeltaAzimuthOne(deltaAzimuthOne);
+                option.setDeltaAzimuthTwo(deltaAzimuthTwo);
+                option.setDeltaDistanceOne(String.format("%.2f", deltaDistanceOne*100));
+                option.setDeltaDistanceTwo(String.format("%.2f", deltaDistanceTwo*100));
+                meridianService.updateOption(option);
+
                 if ((Math.abs(option.getX() - option1.getX()) > deltaXY) || (Math.abs(option.getY() - option1.getY()) > deltaXY)) {
                     return "meridian_add_miss_all";
                 } else {
@@ -131,6 +145,21 @@ public class MeridianController {
 
             //для номера орудия = 2
             if (option.getNumberOfGun() == option2.getNumberOfGun()) {
+                double deltaX = Math.abs(option.getX() - option2.getX());
+                double deltaY = Math.abs(option.getY() - option2.getY());
+                double deltaDistanceOne = Math.abs(option.getDistanceOne() - option2.getDistanceOne());
+                double deltaDistanceTwo = Math.abs(option.getDistanceTwo() - option2.getDistanceTwo());
+                int deltaAzimuthOne = getDeltaAzimuth(degree, degree2);
+                int deltaAzimuthTwo = getDeltaAzimuth(degreeTwo, degreeTwo2);
+
+                option.setDeltaX(String.format("%.2f", deltaX*100));
+                option.setDeltaY(String.format("%.2f", deltaY*100));
+                option.setDeltaAzimuthOne(deltaAzimuthOne);
+                option.setDeltaAzimuthTwo(deltaAzimuthTwo);
+                option.setDeltaDistanceOne(String.format("%.2f", deltaDistanceOne*100));
+                option.setDeltaDistanceTwo(String.format("%.2f", deltaDistanceTwo*100));
+                meridianService.updateOption(option);
+
                 if ((Math.abs(option.getX() - option2.getX()) > deltaXY) || (Math.abs(option.getY() - option2.getY()) > deltaXY)) {
                     return "meridian_add_miss_all";
                 } else {
@@ -164,8 +193,16 @@ public class MeridianController {
                 }
             }
             return "meridian_add_success_all";
+        } else {
+            option.setDeltaX("0");
+            option.setDeltaY("0");
+            option.setDeltaAzimuthOne(0);
+            option.setDeltaAzimuthTwo(0);
+            option.setDeltaDistanceOne("0");
+            option.setDeltaDistanceTwo("0");
+            meridianService.updateOption(option);
         }
-
+        //сохранение вводимых данных
         return "redirect:/allresults";
 
     }
@@ -245,4 +282,22 @@ public class MeridianController {
         return false;
     }
 
+    private int getDeltaAzimuth(String degree, String degree1) {
+        String newDegree = degree.replace("°", " ").replace("'", " ").replace("\"", " ");
+        String newDegree1 = degree1.replace("°", " ").replace("'", " ").replace("\"", " ");
+        String[] array = newDegree.split(" ");
+        String[] arrayTwo = newDegree1.split(" ");
+        int degrees = Integer.parseInt(array[0]);
+        int minutes = Integer.parseInt(array[1]);
+        int seconds = Integer.parseInt(array[2]);
+        int degrees1 = Integer.parseInt(arrayTwo[0]);
+        int minutes1 = Integer.parseInt(arrayTwo[1]);
+        int seconds1 = Integer.parseInt(arrayTwo[2]);
+        int allMinutes = (degrees * 60) + minutes;
+        int allMinutes1 = (degrees1 * 60) + minutes1;
+        int allSeconds = (degrees * 3600) + (minutes * 60) + (seconds);
+        int allSeonds1 = (degrees1 * 3600) + (minutes1 * 60) + (seconds1);
+        int deltaSeconds = allSeconds - allSeonds1;
+        return Math.abs(deltaSeconds);
+    }
 }

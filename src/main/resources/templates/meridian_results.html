@@ -22,31 +22,43 @@
             <table class="table table-stripped">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th th:text="#{meridian.number}">Number</th>
-                    <th th:text="X">X</th>
-                    <th th:text="Y">Y</th>
-                    <th th:text="#{meridian.target}">Target Name</th>
-                    <th th:text="#{meridian.azimuth}">Azimuth</th>
-                    <th th:text="#{meridian.distance}">Distance</th>
-                    <th th:text="#{meridian.target}">Target name</th>
-                    <th th:text="#{meridian.azimuth}">Azimuth</th>
-                    <th th:text="#{meridian.distance}">Distance</th>
-                    <th th:text="#{meridian.about}">Delete</th>
+<!--                    <th th:bgcolor="blue">ID</th>-->
+                    <th th:text="#{meridian.number}" th:bgcolor="green">Number</th>
+                    <th th:text="X" th:bgcolor="green">X</th>
+                    <th th:text="#{meridian.deltaX}" th:bgcolor="red">Xdelta</th>
+                    <th th:text="Y" th:bgcolor="green">Y</th>
+                    <th th:text="#{meridian.deltaY}" th:bgcolor="red">Ydelta</th>
+                    <th th:text="#{meridian.target}" th:bgcolor="green">Target Name</th>
+                    <th th:text="#{meridian.azimuth}" th:bgcolor="green">Azimuth</th>
+                    <th th:text="#{meridian.delta_azimuth}" th:bgcolor="red">Azimuth</th>
+                    <th th:text="#{meridian.distance}" th:bgcolor="green">Distance</th>
+                    <th th:text="#{meridian.delta_distance}" th:bgcolor="red">Distance</th>
+                    <th th:text="#{meridian.target}" th:bgcolor="green">Target name</th>
+                    <th th:text="#{meridian.azimuth}" th:bgcolor="green">Azimuth</th>
+                    <th th:text="#{meridian.delta_azimuth}" th:bgcolor="red">Azimuth</th>
+                    <th th:text="#{meridian.distance}" th:bgcolor="green">Distance</th>
+                    <th th:text="#{meridian.delta_distance}" th:bgcolor="red">Distance</th>
+                    <th th:text="#{meridian.about}" th:bgcolor="blue">About</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each = "option : ${options}">
-                    <td th:text = "${option.getId()}"></td>
+<!--                    <td th:text = "${option.getId()}"></td>-->
                     <td th:text = "${option.getNumberOfGun()}"></td>
                     <td th:text = "${option.getX()}"></td>
+                    <td th:text = "${option.getDeltaX()}"></td>
                     <td th:text = "${option.getY()}"></td>
+                    <td th:text = "${option.getDeltaY()}"></td>
                     <td th:text = "${option.getNumberOfTargetOne()}"></td>
                     <td th:text = "${option.getAzimuthOne()}"></td>
+                    <td th:text = "${option.getDeltaAzimuthOne()}"></td>
                     <td th:text = "${option.getDistanceOne()}"></td>
+                    <td th:text = "${option.getDeltaDistanceOne()}"></td>
                     <td th:text = "${option.getNumberOfTargetTwo()}"></td>
                     <td th:text = "${option.getAzimuthTwo()}"></td>
+                    <td th:text = "${option.getDeltaAzimuthTwo()}"></td>
                     <td th:text = "${option.getDistanceTwo()}"></td>
+                    <td th:text = "${option.getDeltaDistanceTwo()}"></td>
                     <td><a th:href="@{'/details/' + ${option.id}}" class="btn btn-info btn-sm" th:text="#{meridian.about}"></a></td>
                 </tr>
                 </tbody>
