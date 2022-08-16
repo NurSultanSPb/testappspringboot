@@ -1,5 +1,6 @@
 package kz.springboot.springbootdemoo.util;
 
+import kz.springboot.springbootdemoo.entities.MeridianOptions;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
@@ -10,26 +11,21 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 public class ExcelExporter {
 
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
-    private List<Officers> officersList;
+    private List<MeridianOptions> optionsList;
 
-    public ExcelExporter(List<Officers> officersList) {
-        this.officersList = officersList;
+    public ExcelExporter(List<MeridianOptions> optionsList) {
+        this.optionsList = optionsList;
         workbook = new XSSFWorkbook();
     }
 
     private void writeHeaderLine() {
-        sheet = workbook.createSheet("Сотрудники");
+        sheet = workbook.createSheet("Результаты измерений");
 
         Row row = sheet.createRow(0);
 
@@ -39,15 +35,22 @@ public class ExcelExporter {
         font.setFontHeight(16);
         style.setFont(font);
 
-        createCell(row, 0, "№ п/п", style);
-        createCell(row, 1, "ФИО", style);
-        createCell(row, 2, "Дата рождения", style);
-        createCell(row, 3, "Должность", style);
-        createCell(row, 4, "Звание", style);
-        createCell(row, 5, "Подразделение", style);
-        createCell(row, 6, "Дата заключения контракта", style);
-        createCell(row, 7, "Срок контракта (в годах)", style);
-        createCell(row,8, "Дата завершения контракта", style);
+        createCell(row, 0, "Страна", style);
+        createCell(row, 1, "№ орудия", style);
+        createCell(row, 2, "Координата х орудия", style);
+        createCell(row, 3, "Разность х (см)", style);
+        createCell(row, 4, "Координата у орудия", style);
+        createCell(row, 5, "Разность у (см)", style);
+        createCell(row, 6, "Цель №", style);
+        createCell(row, 7, "Дирекционный угол орудие-первая цель", style);
+        createCell(row, 8, "Разность дирекционного угла (в секундах)", style);
+        createCell(row,9, "Расстояние орудие-первая цель", style);
+        createCell(row,10, "Разность расстояния (см)", style);
+        createCell(row,11, "Цель №", style);
+        createCell(row,12, "Дирекционный угол орудие-первая цель", style);
+        createCell(row,13, "Разность дирекционного угла (в секундах)", style);
+        createCell(row, 14, "Расстояние орудие-вторая цель", style);
+        createCell(row,15, "Разность расстояния (см)", style);
     }
 
     private void createCell(Row row, int columnCount, Object value, CellStyle style) {
@@ -57,7 +60,9 @@ public class ExcelExporter {
             cell.setCellValue((Integer) value);
         } else if (value instanceof Boolean) {
             cell.setCellValue((Boolean) value);
-        }else {
+        } else if (value instanceof Double) {
+            cell.setCellValue((Double) value);
+        } else {
             cell.setCellValue((String) value);
         }
         cell.setCellStyle(style);
@@ -71,49 +76,27 @@ public class ExcelExporter {
         font.setFontHeight(14);
         style.setFont(font);
 
-        for (Officers officer : officersList) {
+        for (MeridianOptions option : optionsList) {
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
 
-            //Корректное отобраэение даты в виде String, использованы
-            //1. Переход от LocalDate к виду Date
-            //2. Переход от Date к String с использованием DateFormat
-            Date dateOfBirthDate = null;
-            if (officer.getDateOfBirth() != null) {
-                dateOfBirthDate = java.util.Date.from(officer.getDateOfBirth().atStartOfDay()
-                        .atZone(ZoneId.systemDefault())
-                        .toInstant());
-            }
-
-            Date dateOfSignDate = null;
-            if (officer.getDateOfSign() != null) {
-                dateOfSignDate = java.util.Date.from(officer.getDateOfSign().atStartOfDay()
-                        .atZone(ZoneId.systemDefault())
-                        .toInstant());
-            }
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
-            //Автоматическое высчитывание даты завершения контракта
-            Date dateEndContractDate = null;
-            if (officer.getDateOfSign() != null) {
-                LocalDate dateEndContract = officer.getDateOfSign().plusYears(officer.getContractPeriod());
-                dateEndContractDate = java.util.Date.from(dateEndContract.atStartOfDay()
-                        .atZone(ZoneId.systemDefault())
-                        .toInstant());
-            }
-
-            //Наполнение строк данными конкретного сотрудника
-            createCell(row, columnCount++, officer.getPersonalNumber(), style);
-            createCell(row, columnCount++, officer.getSurname() + " " + officer.getName() + " " + officer.getMiddleName(), style);
-            createCell(row, columnCount++, dateFormat.format(dateOfBirthDate), style);
-            createCell(row, columnCount++, officer.getPosition().getPositionName(), style);
-            createCell(row, columnCount++, officer.getRank().getRankName(), style);
-            createCell(row, columnCount++, officer.getDepartment().getDepartmentName(), style);
-            createCell(row, columnCount++, dateFormat.format(dateOfSignDate), style);
-            createCell(row, columnCount++, officer.getContractPeriod(), style);
-            createCell(row, columnCount++, dateFormat.format(dateEndContractDate), style);
-
-
+            //Наполнение строк данными конкретного option
+            createCell(row, columnCount++, option.getCountry(), style);
+            createCell(row, columnCount++, option.getNumberOfGun(), style);
+            createCell(row, columnCount++, option.getX(), style);
+            createCell(row, columnCount++, option.getDeltaX(), style);
+            createCell(row, columnCount++, option.getY(), style);
+            createCell(row, columnCount++, option.getDeltaY(), style);
+            createCell(row, columnCount++, option.getNumberOfTargetOne(), style);
+            createCell(row, columnCount++, option.getAzimuthOne(), style);
+            createCell(row, columnCount++, option.getDeltaAzimuthOne(), style);
+            createCell(row, columnCount++, option.getDistanceOne(), style);
+            createCell(row, columnCount++, option.getDeltaDistanceOne(), style);
+            createCell(row, columnCount++, option.getNumberOfTargetTwo(), style);
+            createCell(row, columnCount++, option.getAzimuthTwo(), style);
+            createCell(row, columnCount++, option.getDeltaAzimuthTwo(), style);
+            createCell(row, columnCount++, option.getDistanceTwo(), style);
+            createCell(row, columnCount++, option.getDeltaDistanceTwo(), style);
 
         }
     }

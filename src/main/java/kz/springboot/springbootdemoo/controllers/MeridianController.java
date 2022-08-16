@@ -2,6 +2,7 @@ package kz.springboot.springbootdemoo.controllers;
 
 import kz.springboot.springbootdemoo.entities.*;
 import kz.springboot.springbootdemoo.services.MeridianService;
+import kz.springboot.springbootdemoo.util.ExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -9,11 +10,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -301,4 +306,22 @@ public class MeridianController {
         int deltaSeconds = allSeconds - allSeonds1;
         return Math.abs(deltaSeconds);
     }
+
+    @GetMapping("/exporttoexcel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        List<MeridianOptions> optionsList = meridianService.getAllOptions();
+
+        ExcelExporter excelExporter = new ExcelExporter(optionsList);
+
+        excelExporter.export(response);
+    }
+
 }
