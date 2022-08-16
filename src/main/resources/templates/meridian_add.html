@@ -22,6 +22,10 @@
             <form th:action="@{'/'}" method="post">
                 <h5 class="display-4 text-center" th:text="#{meridian.input}">Enter source data</h5>
                 <div class="form-group">
+                    <label th:text="#{meridian.country}"></label>
+                    <input type="text" tclass="form-control" name="country" autocomplete="off">
+                </div>
+                <div class="form-group">
                     <label th:text="#{meridian.number}"></label>
                     <input type="number" min="1" max="10000" step="1" tclass="form-control" name="gun_number">
                 </div>

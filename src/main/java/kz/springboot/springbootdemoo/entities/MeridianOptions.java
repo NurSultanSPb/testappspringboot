@@ -61,4 +61,7 @@ public class MeridianOptions {
 
     @Column(name = "delta_azimuth_two")
     private int deltaAzimuthTwo;
+
+    @Column(name = "country")
+    private String country;
 }

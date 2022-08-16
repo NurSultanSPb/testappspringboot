@@ -45,11 +45,12 @@ public class MeridianController {
                                     @RequestParam(name = "x", defaultValue = "0") double x,
                                     @RequestParam(name = "y", defaultValue = "0")  double y,
                                     @RequestParam(name = "target_one", defaultValue = "1") int targetOne,
-                                    @RequestParam(name = "azimuth_one", defaultValue = " ") String azimuthOne,
+                                    @RequestParam(name = "azimuth_one", defaultValue = "00 00 00") String azimuthOne,
                                     @RequestParam(name = "distance_one", defaultValue = "0") double distanceOne,
                                     @RequestParam(name = "target_two", defaultValue = "1") int targetTwo,
-                                    @RequestParam(name = "azimuth_two", defaultValue = " ") String azimuthTwo,
-                                    @RequestParam(name = "distance_two", defaultValue = "0") double distanceTwo) {
+                                    @RequestParam(name = "azimuth_two", defaultValue = "00 00 00") String azimuthTwo,
+                                    @RequestParam(name = "distance_two", defaultValue = "0") double distanceTwo,
+                                    @RequestParam(name = "country", defaultValue = " ") String country) {
         //option = вводимый вариант
         MeridianOptions option = new MeridianOptions();
 
@@ -64,7 +65,7 @@ public class MeridianController {
         option.setNumberOfTargetTwo(targetTwo);
         option.setAzimuthTwo(azimuthTwo);
         option.setDistanceTwo(distanceTwo);
-
+        option.setCountry(country);
         //сохранение вводимого варианта
         meridianService.addOption(option);
 

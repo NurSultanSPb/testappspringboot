@@ -38,6 +38,7 @@
                     <th th:text="#{meridian.delta_azimuth}" th:bgcolor="red">Azimuth</th>
                     <th th:text="#{meridian.distance}" th:bgcolor="green">Distance</th>
                     <th th:text="#{meridian.delta_distance}" th:bgcolor="red">Distance</th>
+                    <th th:text="#{meridian.country}" th:bgcolor="yellow">Country</th>
                     <th th:text="#{meridian.about}" th:bgcolor="blue">About</th>
                 </tr>
                 </thead>
@@ -59,6 +60,7 @@
                     <td th:text = "${option.getDeltaAzimuthTwo()}"></td>
                     <td th:text = "${option.getDistanceTwo()}"></td>
                     <td th:text = "${option.getDeltaDistanceTwo()}"></td>
+                    <td th:text = "${option.getCountry()}"></td>
                     <td><a th:href="@{'/details/' + ${option.id}}" class="btn btn-info btn-sm" th:text="#{meridian.about}"></a></td>
                 </tr>
                 </tbody>
